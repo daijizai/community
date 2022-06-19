@@ -1,0 +1,61 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /community
+
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/community?useSSL=false&serverTimezone=UTC
+      username: root
+      password: 123456
+  redis:
+    database: 11
+    host: 192.168.224.130
+    port: 6379
+    password: 123456
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 3218612639@qq.com
+    password: jeuwarjkihwkddgh
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  data:
+    elasticsearch:
+      cluster-name: daijizai
+      cluster-nodes: localhost:9300
+
+
+
+
+
+
+
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: community-consumer-group
+      enable-auto-commit: true
+      auto-commit-interval: 3000
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+community:
+  path:
+    domain: http://localhost:8080
+    upload: d:/work/data/upload
+
+
+
