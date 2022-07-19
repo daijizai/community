@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -113,15 +114,15 @@ public class LoginController implements CommunityConstant {
 //        session.setAttribute("kaptcha", text);
 
         //验证码的归属
-        String kaptchaOwner= CommunityUtil.generateUUID();
-        Cookie cookie=new Cookie("kaptchaOwner",kaptchaOwner);
+        String kaptchaOwner = CommunityUtil.generateUUID();
+        Cookie cookie = new Cookie("kaptchaOwner", kaptchaOwner);
         cookie.setMaxAge(60);//设置cookie过期时间为60s
         cookie.setPath(contextPath);
         response.addCookie(cookie);
 
         //验证码存入reids
         String key = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
-        redisTemplate.opsForValue().set(key,text,60, TimeUnit.SECONDS);//失效时间60s
+        redisTemplate.opsForValue().set(key, text, 60, TimeUnit.SECONDS);//失效时间60s
 
         //将图片输出给浏览器
         response.setContentType("image/png");
@@ -132,7 +133,6 @@ public class LoginController implements CommunityConstant {
             logger.error("【响应验证码失败】" + e.getMessage());
         }
 
-
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
@@ -141,10 +141,10 @@ public class LoginController implements CommunityConstant {
                         @CookieValue("kaptchaOwner") String kaptchaOwner) {
         //检查验证码
 //        String kaptcha = (String) session.getAttribute("kaptcha");
-        String kaptcha=null;
-        if(StringUtils.isNotBlank(kaptchaOwner)){
+        String kaptcha = null;
+        if (StringUtils.isNotBlank(kaptchaOwner)) {
             String key = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
-            kaptcha =(String) redisTemplate.opsForValue().get(key);
+            kaptcha = (String) redisTemplate.opsForValue().get(key);
         }
 
         if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) {
@@ -172,6 +172,7 @@ public class LoginController implements CommunityConstant {
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);
+        SecurityContextHolder.clearContext();
         return "redirect:/login";
     }
 }

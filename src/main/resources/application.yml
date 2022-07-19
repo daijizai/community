@@ -27,16 +27,19 @@ spring:
         smtp:
           ssl:
             enable: true
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: communityScheduler
+  task:
+    scheduling:
+      pool:
+        size: 5
+
+
   data:
     elasticsearch:
       cluster-name: daijizai
       cluster-nodes: localhost:9300
-
-
-
-
-
-
 
 
   kafka:
@@ -58,4 +61,23 @@ community:
     upload: d:/work/data/upload
 
 
+wk:
+  image:
+    command: D:/Program Files/wkhtmltopdf/bin/wkhtmltoimage
+    storage: d:/work/data/wk-images
 
+
+qiniu:
+  key:
+    access: hSzhVkZAfvUpak0luGIv8NAcKGCSp3ZcQS5OhDM7
+    secret: PrwIY_MUaX7ItGN-KabCoxbBA9Z0wlw0eROdawLh
+  bucket:
+    name: video-test-dijizai
+    url:
+      share: http://daijizai.asia/community-share/
+      header: http://daijizai.asia/community-header/
+
+caffeine:
+  posts:
+   max-size: 15
+   expire-seconds: 180

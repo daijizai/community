@@ -8,7 +8,9 @@ import asia.daijizai.community.service.LikeService;
 import asia.daijizai.community.util.CommunityConstant;
 import asia.daijizai.community.util.CommunityUtil;
 import asia.daijizai.community.util.HostHolder;
+import asia.daijizai.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,9 +39,12 @@ public class LikeController implements CommunityConstant {
     @Autowired
     private EventProducer eventProducer;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @RequestMapping(path = "/like", method = RequestMethod.POST)
     @ResponseBody
-    public String like(int entityType, int entityId, int entityUserId,int postId) {
+    public String like(int entityType, int entityId, int entityUserId, int postId) {
         User user = hostHolder.getUser();
 
         // 点赞
@@ -55,16 +60,23 @@ public class LikeController implements CommunityConstant {
         likeVO.put("likeStatus", likeStatus);
 
         //触发点赞事件
-        if(likeStatus==1){
-            Event event=new Event()
+        if (likeStatus == 1) {
+            Event event = new Event()
                     .setTopic(TOPIC_LIKE)//事件的主题
                     .setUserId(user.getId())//事件的触发者
                     .setEntityType(entityType)
                     .setEntityId(entityId)
                     .setEntityUserId(entityUserId)
-                    .setData("postId",postId);
+                    .setData("postId", postId);
             eventProducer.fireEvent(event);
         }
+
+        if (entityType == ENTITY_TYPE_POST) {
+            //计算帖子的分数
+            String key = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(key, postId);
+        }
+
 
         return CommunityUtil.getJSONString(0, null, likeVO);
     }

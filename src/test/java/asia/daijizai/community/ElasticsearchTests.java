@@ -58,15 +58,15 @@ public class ElasticsearchTests {
 
     @Test
     public void testInsertList() {
-        discussRepository.saveAll(discussPostDao.list(101, 0, 100));
-        discussRepository.saveAll(discussPostDao.list(102, 0, 100));
-        discussRepository.saveAll(discussPostDao.list(103, 0, 100));
-        discussRepository.saveAll(discussPostDao.list(111, 0, 100));
-        discussRepository.saveAll(discussPostDao.list(112, 0, 100));
-        discussRepository.saveAll(discussPostDao.list(131, 0, 100));
-        discussRepository.saveAll(discussPostDao.list(132, 0, 100));
-        discussRepository.saveAll(discussPostDao.list(133, 0, 100));
-        discussRepository.saveAll(discussPostDao.list(134, 0, 100));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(101, 0, 100,0));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(102, 0, 100,0));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(103, 0, 100,0));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(111, 0, 100,0));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(112, 0, 100,0));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(131, 0, 100,0));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(132, 0, 100,0));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(133, 0, 100,0));
+        discussRepository.saveAll(discussPostDao.listDiscussPost(134, 0, 100,0));
     }
 
     @Test

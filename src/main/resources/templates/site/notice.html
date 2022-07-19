@@ -40,7 +40,7 @@
             <ul class="list-unstyled">
                 <!--评论类通知-->
                 <li class="media pb-3 pt-3 mb-3 border-bottom position-relative"
-                    th:if="${commentNotice.get('message')!=null}">
+                    th:if="${commentNotice!=null}">
                     <span class="badge badge-danger"
                           th:text="${commentNotice.get('unread') != 0 ? commentNotice.get('unread') : ''}">3</span>
                     <img src="http://static.nowcoder.com/images/head/reply.png" class="mr-4 user-header" alt="通知图标">
@@ -65,7 +65,7 @@
                 </li>
                 <!--点赞类通知-->
                 <li class="media pb-3 pt-3 mb-3 border-bottom position-relative"
-                    th:if="${likeNotice.get('message')!=null}">
+                    th:if="${likeNotice!=null}">
                     <span class="badge badge-danger"
                           th:text="${likeNotice.get('unread')!=0?likeNotice.get('unread'):''}">3</span>
                     <img src="http://static.nowcoder.com/images/head/like.png" class="mr-4 user-header" alt="通知图标">
@@ -90,7 +90,7 @@
                 </li>
                 <!--关注类通知-->
                 <li class="media pb-3 pt-3 mb-3 border-bottom position-relative"
-                    th:if="${followNotice.get('message')!=null}">
+                    th:if="${followNotice!=null}">
                     <span class="badge badge-danger"
                           th:text="${followNotice.get('unread')!=0?followNotice.get('unread'):''}">3</span>
                     <img src="http://static.nowcoder.com/images/head/follow.png" class="mr-4 user-header" alt="通知图标">

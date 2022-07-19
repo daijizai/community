@@ -2,7 +2,9 @@ package asia.daijizai.community.service;
 
 import asia.daijizai.community.entity.LoginTicket;
 import asia.daijizai.community.entity.User;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -28,4 +30,6 @@ public interface UserService {
     int updateHeader(int userId,String headerUrl);
 
     User getUserByUsername(String username);
+
+    Collection<? extends GrantedAuthority> getAuthorities(int userId);
 }

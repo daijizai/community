@@ -8,7 +8,9 @@ import asia.daijizai.community.service.CommentService;
 import asia.daijizai.community.service.DiscussPostService;
 import asia.daijizai.community.util.CommunityConstant;
 import asia.daijizai.community.util.HostHolder;
+import asia.daijizai.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +40,9 @@ public class CommentController implements CommunityConstant {
 
     @Autowired
     private DiscussPostService discussPostService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @RequestMapping(path = "/add/{discussPostId}",method = RequestMethod.POST)
     public String addComment(@PathVariable("discussPostId")int discussPostId, Comment comment){
@@ -70,6 +75,10 @@ public class CommentController implements CommunityConstant {
                     .setEntityType(ENTITY_TYPE_POST)
                     .setEntityId(discussPostId);
             eventProducer.fireEvent(event);
+
+            //计算帖子的分数
+            String key = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(key,discussPostId);
         }
 
 

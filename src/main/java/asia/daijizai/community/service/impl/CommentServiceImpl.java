@@ -55,7 +55,6 @@ public class CommentServiceImpl implements CommentService, CommunityConstant {
         return rows;
     }
 
-
     public Comment getComment(int id){
         return commentDao.getComment(id);
     }

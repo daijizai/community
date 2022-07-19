@@ -44,12 +44,12 @@ public class MapperTests {
 
     @Test
     public void testSelectPost(){
-        List<DiscussPost> discussPosts = discussPostDao.list(149, 0, 10);
+        List<DiscussPost> discussPosts = discussPostDao.listDiscussPost(149, 0, 10,0);
         for (DiscussPost post:discussPosts){
             System.out.println(post);
         }
 
-        System.out.println(discussPostDao.count(149));
+        System.out.println(discussPostDao.countDiscussPost(149));
     }
 
     @Test

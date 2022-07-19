@@ -164,8 +164,9 @@ public class MessageController implements CommunityConstant {
 
         //查询评论通知
         Message message = messageService.getLastNotice(user.getId(), TOPIC_COMMENT);
-        ViewObject messageVO = new ViewObject();
         if (message != null) {
+            ViewObject messageVO = new ViewObject();
+
             messageVO.put("message", message);
             Map<String, Object> data = JSONObject.parseObject(message.getContent(), HashMap.class);
 
@@ -179,13 +180,16 @@ public class MessageController implements CommunityConstant {
 
             int unread = messageService.countUnreadNotice(user.getId(), TOPIC_COMMENT);
             messageVO.put("unread", unread);
+
+            model.addAttribute("commentNotice", messageVO);
         }
-        model.addAttribute("commentNotice", messageVO);
+
 
         //查询点赞通知
         message = messageService.getLastNotice(user.getId(), TOPIC_LIKE);
-        messageVO = new ViewObject();
         if (message != null) {
+            ViewObject messageVO = new ViewObject();
+
             messageVO.put("message", message);
             Map<String, Object> data = JSONObject.parseObject(message.getContent(), HashMap.class);
 
@@ -199,13 +203,16 @@ public class MessageController implements CommunityConstant {
 
             int unread = messageService.countUnreadNotice(user.getId(), TOPIC_LIKE);
             messageVO.put("unread", unread);
+
+            model.addAttribute("likeNotice", messageVO);
         }
-        model.addAttribute("likeNotice", messageVO);
+
 
         //查询关注通知
         message = messageService.getLastNotice(user.getId(), TOPIC_FOLLOW);
-        messageVO = new ViewObject();
         if (message != null) {
+            ViewObject messageVO = new ViewObject();
+
             messageVO.put("message", message);
             Map<String, Object> data = JSONObject.parseObject(message.getContent(), HashMap.class);
 
@@ -218,8 +225,9 @@ public class MessageController implements CommunityConstant {
 
             int unread = messageService.countUnreadNotice(user.getId(), TOPIC_FOLLOW);
             messageVO.put("unread", unread);
+
+            model.addAttribute("followNotice", messageVO);
         }
-        model.addAttribute("followNotice", messageVO);
 
         //未读私信数量
         int letterUnreadCount = messageService.countUnreadLetter(user.getId(), null);
